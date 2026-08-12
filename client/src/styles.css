@@ -1,31 +1,67 @@
-* {
-  box-sizing: border-box;
+/* ---------- App shell ---------- */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-html,
-body,
-#root {
-  min-height: 100%;
-  margin: 0;
+.navbar {
+  border-bottom: 1px solid var(--border);
+  background: rgba(20, 23, 28, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-body {
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+.navbar__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-a {
+.wordmark__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-amber);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.18);
+}
+
+.navlinks {
+  display: flex;
+  gap: 4px;
+}
+
+.navlink {
   text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.navlink:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.navlink--active {
+  color: var(--text);
+  background: var(--surface-raised);
 }
