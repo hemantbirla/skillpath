@@ -5,6 +5,7 @@ const queries = require("../queries");
 
 const router = express.Router();
 
+// GET /api/skills?search=react&category=frontend&difficulty=beginner
 router.get("/", async (req, res, next) => {
   try {
     const term = (req.query.search || "").trim();
@@ -27,7 +28,8 @@ router.get("/", async (req, res, next) => {
 
 // GET /api/skills/gateways
 //
-// Must be declared before /:id so "gateways" is not treated as a skill ID.
+// Must be declared before /:id so "gateways"
+// is not treated as a skill ID.
 router.get("/gateways", async (req, res, next) => {
   try {
     const records = await runQuery(queries.gatewaySkills, {});
@@ -35,9 +37,9 @@ router.get("/gateways", async (req, res, next) => {
     const skills = records.map((record) => {
       const skill = record.toObject();
 
-      if (skill.unlockedCount?.toNumber) {
-        skill.unlockedCount = skill.unlockedCount.toNumber();
-      }
+      skill.unlockedCount = skill.unlockedCount?.toNumber
+        ? skill.unlockedCount.toNumber()
+        : skill.unlockedCount;
 
       return skill;
     });
@@ -64,12 +66,12 @@ router.get("/:id", async (req, res, next) => {
     const skill = records[0].toObject();
 
     skill.prerequisites = skill.prerequisites.filter(
-      (skill) => skill.id !== null,
+      (item) => item.id !== null,
     );
 
-    skill.unlocks = skill.unlocks.filter((skill) => skill.id !== null);
+    skill.unlocks = skill.unlocks.filter((item) => item.id !== null);
 
-    skill.courses = skill.courses.filter((course) => course.id !== null);
+    skill.courses = skill.courses.filter((item) => item.id !== null);
 
     res.json({ skill });
   } catch (err) {

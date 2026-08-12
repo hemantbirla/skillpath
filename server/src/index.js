@@ -12,24 +12,24 @@ const recommendRouter = require("./routes/recommend");
 const overviewRouter = require("./routes/overview");
 
 const app = express();
+
 const PORT = process.env.PORT || 4000;
 
-// ================================
+// ================================================================
 // Global Middleware
-// ================================
+// ================================================================
 
 app.use(cors());
 app.use(express.json());
 
-// Request logger
 app.use((req, _res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
 
-// ================================
+// ================================================================
 // Health Check
-// ================================
+// ================================================================
 
 app.get("/api/health", async (_req, res) => {
   try {
@@ -48,9 +48,9 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-// ================================
+// ================================================================
 // API Routes
-// ================================
+// ================================================================
 
 app.use("/api/skills", skillsRouter);
 app.use("/api/courses", coursesRouter);
@@ -58,11 +58,21 @@ app.use("/api/path", pathRouter);
 app.use("/api", recommendRouter);
 app.use("/api/overview", overviewRouter);
 
-// ================================
-// Central Error Handler
-// ================================
+// ================================================================
+// 404 Handler
+// ================================================================
 
-app.use((err, req, res, next) => {
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Route not found",
+  });
+});
+
+// ================================================================
+// Central Error Handler
+// ================================================================
+
+app.use((err, _req, res, _next) => {
   console.error("API Error:", err);
 
   res.status(err.status || 500).json({
@@ -70,19 +80,32 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ================================
+// ================================================================
 // Start Server
-// ================================
+// ================================================================
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`SkillPath API listening on http://localhost:${PORT}`);
 });
 
-// ================================
+// ================================================================
 // Graceful Shutdown
-// ================================
+// ================================================================
 
-process.on("SIGINT", async () => {
-  await closeDriver();
-  process.exit(0);
-});
+async function shutdown(signal) {
+  console.log(`${signal} received. Shutting down...`);
+
+  server.close(async () => {
+    try {
+      await closeDriver();
+      console.log("Database driver closed.");
+      process.exit(0);
+    } catch (err) {
+      console.error("Shutdown error:", err);
+      process.exit(1);
+    }
+  });
+}
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
