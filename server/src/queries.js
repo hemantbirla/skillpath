@@ -125,4 +125,91 @@ module.exports = {
     }] AS steps,
     length(p) AS hops
 `,
+
+  // ---- Recommendations ----------------------------------------------
+
+  recommendationsForLearner: `
+  MATCH (l:Learner {id: $learnerId})-[:HAS_SKILL]->(known:Skill)
+
+  WITH
+    l,
+    collect(known.id) AS knownIds
+
+  MATCH (c:Course)
+
+  WHERE NOT (l)-[:COMPLETED]->(c)
+
+  OPTIONAL MATCH (c)-[:REQUIRES]->(req:Skill)
+
+  WITH
+    l,
+    c,
+    knownIds,
+    collect(req.id) AS reqIds
+
+  WHERE all(
+    requiredId IN reqIds
+    WHERE requiredId IN knownIds
+  )
+
+  MATCH (c)-[:TEACHES]->(taught:Skill)
+
+  WITH
+    l,
+    c,
+    knownIds,
+    collect(DISTINCT taught) AS taughtSkills
+
+  WITH
+    l,
+    c,
+    knownIds,
+    [
+      skill IN taughtSkills
+      WHERE NOT skill.id IN knownIds
+      | skill.name
+    ] AS newSkills
+
+  WHERE size(newSkills) > 0
+
+  OPTIONAL MATCH (peer:Learner)-[:HAS_SKILL]->(shared:Skill)
+  WHERE
+    peer <> l
+    AND shared.id IN knownIds
+
+  WITH
+    l,
+    c,
+    newSkills,
+    peer,
+    count(DISTINCT shared) AS overlap
+
+  WHERE peer IS NULL OR overlap >= 2
+
+  WITH
+    c,
+    newSkills,
+    count(DISTINCT peer) AS peerCount,
+    count(
+      DISTINCT CASE
+        WHEN peer IS NOT NULL
+          AND (peer)-[:COMPLETED]->(c)
+        THEN peer
+      END
+    ) AS peersCompleted
+
+  RETURN
+    c.id AS id,
+    c.title AS title,
+    c.level AS level,
+    c.durationHours AS durationHours,
+    newSkills,
+    peersCompleted
+
+  ORDER BY
+    peersCompleted DESC,
+    size(newSkills) DESC
+
+  LIMIT 8
+`,
 };
