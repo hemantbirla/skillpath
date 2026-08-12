@@ -10,16 +10,22 @@ module.exports = {
   // ---- Skills -------------------------------------------------------
 
   searchSkills: `
-    MATCH (s:Skill)
-    WHERE $term = '' OR toLower(s.name) CONTAINS toLower($term)
-    RETURN
-      s.id AS id,
-      s.name AS name,
-      s.category AS category,
-      s.description AS description
-    ORDER BY s.name
-    LIMIT 200
-  `,
+  MATCH (s:Skill)
+
+  WHERE
+    ($term = '' OR toLower(s.name) CONTAINS toLower($term))
+    AND ($category = '' OR toLower(s.category) = toLower($category))
+    AND ($difficulty = '' OR toLower(s.difficulty) = toLower($difficulty))
+
+  RETURN
+    s.id AS id,
+    s.name AS name,
+    s.category AS category,
+    s.difficulty AS difficulty,
+    s.description AS description
+  ORDER BY s.name
+  LIMIT 200
+`,
 
   skillDetail: `
     MATCH (s:Skill {id: $id})
