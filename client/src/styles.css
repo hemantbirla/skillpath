@@ -587,3 +587,72 @@
     width: 100%;
   }
 }
+
+/* ---------- Course Explorer ---------- */
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.course-card {
+  display: block;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.course-card:hover {
+  border-color: var(--line-teal);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.course-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.course-card__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.course-card__meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.course-card .tag {
+  --tag-color: var(--line-teal);
+}
+
+.course-card .pill {
+  color: var(--text-muted);
+}
+
+.course-card .chip-row {
+  margin-top: 8px;
+}
+
+.course-card .chip {
+  color: var(--text-muted);
+}
