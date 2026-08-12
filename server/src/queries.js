@@ -102,4 +102,27 @@ module.exports = {
         name: requires.name
       }) AS requires
   `,
+
+  // ---- Path finder ---------------------------------------------------
+
+  shortestSkillPath: `
+  MATCH (from:Skill {id: $fromId})
+  MATCH (to:Skill {id: $toId})
+
+  MATCH p = shortestPath(
+    (from)-[:PREREQUISITE_OF*1..10]->(to)
+  )
+
+  RETURN
+    [n IN nodes(p) | {
+      id: n.id,
+      name: n.name,
+      category: n.category,
+      sampleCourses: [
+        (course:Course)-[:TEACHES]->(n) |
+        course.title
+      ][0..2]
+    }] AS steps,
+    length(p) AS hops
+`,
 };
