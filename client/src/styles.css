@@ -656,3 +656,56 @@
 .course-card .chip {
   color: var(--text-muted);
 }
+
+.path-line {
+  width: 100%;
+}
+
+.path-line svg {
+  display: block;
+  min-width: 640px;
+}
+
+.path-line__list li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.path-line__list a {
+  color: var(--line-amber);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.path-line__list a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .path-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .field {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .path-form__arrow {
+    align-self: center;
+    padding-bottom: 0;
+    transform: rotate(90deg);
+  }
+
+  .path-form .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .path-line {
+    padding: 16px 8px 8px;
+  }
+}
