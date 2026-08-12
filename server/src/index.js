@@ -62,18 +62,11 @@ app.use("/api/overview", overviewRouter);
 // Central Error Handler
 // ================================
 
-app.use((err, _req, res, _next) => {
-  console.error("Request failed:", err.message);
+app.use((err, req, res, next) => {
+  console.error("API Error:", err);
 
-  const isConnectionIssue =
-    /ServiceUnavailable|ECONNREFUSED|Missing COGNODB/i.test(
-      err.message || "",
-    ) || err.code === "ServiceUnavailable";
-
-  res.status(isConnectionIssue ? 503 : 500).json({
-    error: isConnectionIssue
-      ? "Could not reach the CognoDB instance. Check COGNODB_URI/COGNODB_PASSWORD and that the instance is running."
-      : "Something went wrong handling that request.",
+  res.status(err.status || 500).json({
+    error: err.message || "Something went wrong handling that request.",
   });
 });
 

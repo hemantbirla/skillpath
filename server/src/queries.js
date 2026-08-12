@@ -127,6 +127,19 @@ module.exports = {
 `,
 
   // ---- Recommendations ----------------------------------------------
+  // ---- Learners ------------------------------------------------------
+
+  learners: `
+  MATCH (l:Learner)
+  OPTIONAL MATCH (l)-[:HAS_SKILL]->(s:Skill)
+
+  RETURN
+    l.id AS id,
+    l.name AS name,
+    count(DISTINCT s) AS skillCount
+
+  ORDER BY l.name
+`,
 
   recommendationsForLearner: `
   MATCH (l:Learner {id: $learnerId})-[:HAS_SKILL]->(known:Skill)
