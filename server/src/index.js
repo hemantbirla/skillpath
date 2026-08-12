@@ -5,6 +5,12 @@ const cors = require("cors");
 
 const { verifyConnectivity, closeDriver } = require("./db");
 
+const skillsRouter = require("./routes/skills");
+const coursesRouter = require("./routes/courses");
+const pathRouter = require("./routes/path");
+const recommendRouter = require("./routes/recommend");
+const overviewRouter = require("./routes/overview");
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -41,6 +47,16 @@ app.get("/api/health", async (_req, res) => {
     });
   }
 });
+
+// ================================
+// API Routes
+// ================================
+
+app.use("/api/skills", skillsRouter);
+app.use("/api/courses", coursesRouter);
+app.use("/api/path", pathRouter);
+app.use("/api", recommendRouter);
+app.use("/api/overview", overviewRouter);
 
 // ================================
 // Central Error Handler
