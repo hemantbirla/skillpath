@@ -227,64 +227,69 @@ here once the app is running against your CognoDB instance.)_
 
 ---
 
-# Screenshorts
+## Screenshots
 
-## 1 Explore page
+### 1 Explore page
 
-### Skills grouped by category, search bar visible, Gateway Skills sidebar showing ranked results.
+**Skills grouped by category, search bar visible, Gateway Skills sidebar showing ranked results.**
 
 _The Explore page — skills grouped by category with live search, and a sidebar ranking "gateway" skills by how many others they transitively unlock._
 
 ![Explore Page](docs/explore-1.png)
+
 ![Explore Page](docs/explore-2.png)
+
 ![Explore Page](docs/explore-2.png)
+
 ![Search Bar](docs/search_bar.png)
 
-## 2 Skill Detail page
+### 2 Skill Detail page
 
-### Any skill (e.g. JavaScript) showing prerequisites, unlocks, and courses that teach it.
+**Any skill (e.g. JavaScript) showing prerequisites, unlocks, and courses that teach it.**
 
 _A single skill's page: its direct prerequisites, what it unlocks next, and every course that teaches it._
 
 ![Skill Details](docs/skill_details.png)
 
-## 3 Path Finder — the form + result
+### 3 Path Finder — the form + result
 
-### Two skills selected, the transit-line diagram rendered with the path.
+**Two skills selected, the transit-line diagram rendered with the path.**
 
 _The path finder's headline result — a shortest-path traversal through the prerequisite graph, rendered as a transit line._
 
 ![Path Finder](docs/path_finder.png)
 
-## 4 Path Finder — reverse direction (optional but nice)
+### 4 Path Finder — reverse direction (optional but nice)
 
-### Skills picked in "wrong" order, showing the reverse-direction fallback message.
+**Skills picked in "wrong" order, showing the reverse-direction fallback message.**
 
 _If the two skills are picked in reverse order, the API checks the other direction automatically instead of just saying no path exists._
 
 ![Path Finder Reverse](docs/path_finder_reverse.png)
 
-## 5 Recommendations page
+### 5 Recommendations page
 
-### A learner selected, showing their recommended courses with the "peers completed" and new-skill chips.
+**A learner selected, showing their recommended courses with the "peers completed" and new-skill chips.**
 
 _Course recommendations ranked by peer signal — how many similar learners (2+ shared skills) have already completed each one._
 
 ![Recommendations](docs/Recommendations-1.png)
+
 ![Recommendations](docs/Recommendations-2.png)
 
-## 6 Courses page
+### 6 Courses page
 
-### Course grid with search.
+**Course grid with search.**
 
 _The course catalog, searchable and filterable by title._
 
 ![Courses page](docs/course-1.png)
+
 ![Courses page](docs/course-2.png)
 
-## 7 Error state
+### 7 Error state
 
-### Server stopped or bad .env, showing the graceful error card instead of a crash.
+**Server stopped or bad .env, showing the graceful error card instead of a crash.**
 
 _When CognoDB is unreachable, the app shows a clear error state with a retry option instead of crashing._
 
